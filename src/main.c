@@ -6,7 +6,7 @@
 /*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 15:04:46 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/09/30 10:09:25 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:12:42 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	philos_alloc(t_data *data)
 	int	l_nb;
 
 	i = -1;
+	
 	while (i++ < data->n_philos)
 	{
 		if (!pthread_mutex_init(data->forks[i].mut, NULL))
@@ -30,8 +31,6 @@ void	philos_alloc(t_data *data)
 	i = -1;
 	while (i++ < data->n_philos)
 	{
-		if (!pthread_create(&data->philos[i].philo, NULL, &at_table, data))
-			error_func(data);
 		data->philos[i].n_philo = i;
 		data->philos[i].status = -1;
 		data->philos[i].r_fork = &data->forks[i];
@@ -51,7 +50,7 @@ void	philos_init(t_data *data, char **args)
 	if (args[5])
 		data->meals = (int)ft_atol(args[5]);
 	else
-		data->meals = -1;
+		(*data).meals = -1;
 	if (data->n_philos == 0)
 		exit_phl("Invalid number of philos");
 	if (data->t_die > LONG_MAX || data->t_eat > LONG_MAX
@@ -75,7 +74,7 @@ int	main(int argc, char **argv)
 	if (argc != 5 && argc != 6)
 	{
 		p_msg("Invalid arguments.\nTry <nº_philos>, time to <die>, <eat>,");
-		p_msg(" <sleep>, and <nº_of_reps> (meals)\n");
+		p_msg(" <sleep>, <nº_of_reps> (meals)\n");
 		return (1);
 	}
 	parse_args(argv);
