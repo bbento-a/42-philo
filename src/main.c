@@ -6,64 +6,32 @@
 /*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 15:04:46 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/09/30 16:12:42 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:04:49 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-// Initiates and allocates all forks (mutexes) and philos (threads)
+// Checks if the input has valid characters (aka only digits)
 
-void	philos_alloc(t_data *data)
+void	parse_args(char **args)
 {
 	int	i;
-	int	l_nb;
-
-	i = -1;
+	int j;
 	
-	while (i++ < data->n_philos)
+	i = 1;
+	while (args[i])
 	{
-		if (!pthread_mutex_init(data->forks[i].mut, NULL))
-			error_func(data);
-		data->forks[i].nb = i;
-		data->forks[i].lock = false;
+		j = 0;
+		while (args[i][j])
+		{
+			if (args[i][j] > '0' && args[i][j] < '9')
+				j++;
+			else
+				exit_phl("Arguments can only be positive numbers\n");
+		}
+		i++;
 	}
-	i = -1;
-	while (i++ < data->n_philos)
-	{
-		data->philos[i].n_philo = i;
-		data->philos[i].status = -1;
-		data->philos[i].r_fork = &data->forks[i];
-		l_nb = (i + 1) % data->n_philos;
-		data->philos[i].l_fork = &data->forks[l_nb];
-		data->philos[i].t_last_meal = 0;
-	}
-}
-// Initiates all values from data
-
-void	philos_init(t_data *data, char **args)
-{
-	data->n_philos = (int)ft_atol(args[1]);
-	data->t_die = (uint64_t)ft_atol(args[2]);
-	data->t_eat = (uint64_t)ft_atol(args[3]);
-	data->t_sleep = (uint64_t)ft_atol(args[4]);
-	if (args[5])
-		data->meals = (int)ft_atol(args[5]);
-	else
-		(*data).meals = -1;
-	if (data->n_philos == 0)
-		exit_phl("Invalid number of philos");
-	if (data->t_die > LONG_MAX || data->t_eat > LONG_MAX
-		|| data->t_sleep > LONG_MAX || data->n_philos > INT_MAX
-		|| data->meals > INT_MAX)
-		exit_phl("Arguments values are too big");
-	data->is_dead = false;
-	data->ended = false;
-	data->philos = malloc(sizeof(t_philo) * data->n_philos);
-	data->forks = malloc(sizeof(t_mutex) * data->n_philos);
-	if (!data->forks || !data->philos)
-		return ;
-	philos_alloc(data);
 }
 // Main function
 
@@ -79,6 +47,8 @@ int	main(int argc, char **argv)
 	}
 	parse_args(argv);
 	philos_init(&data, argv);
+	if (data.meals != 0)
+		simulation_cycle(&data);
 	clear_data(&data);
 	return (0);
 }

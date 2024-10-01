@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_args.c                                       :+:      :+:    :+:   */
+/*   philos_activity.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/07 16:00:38 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/09/30 10:18:38 by bbento-a         ###   ########.fr       */
+/*   Created: 2024/10/01 10:58:40 by bbento-a          #+#    #+#             */
+/*   Updated: 2024/10/01 11:02:59 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-// Checks if the input has valid characters (aka only digits)
+// Basically all philos activities will be here
 
-void	parse_args(char **args)
-{
-	int	i;
-	int j;
+// void	philo_eat(t_data *data)
+// {
 	
-	i = 1;
-	while (args[i])
-	{
-		j = 0;
-		while (args[i][j])
-		{
-			if (args[i][j] > '0' && args[i][j] < '9')
-				j++;
-			else
-				exit_phl("Arguments can only be positive numbers\n");
-		}
-		i++;
-	}
-}
+// }
+// void	philo_sleep(t_data *data)
+// {
+	
+// }
+// void	philo_think(t_data *data)
+// {
+	
+// }
+// void	write_philo_act(t_data *data)
+// {
+	
+// }

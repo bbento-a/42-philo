@@ -6,7 +6,7 @@
 /*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 12:02:18 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/09/30 10:22:12 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/01 10:29:54 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,30 @@ void	p_msg(char *msg)
 	printf("%s", msg);
 }
 
-void	error_func(t_data *data)
-{
-	data = (void*)data;
-	// clear data
-	// exit
-}
-
-void	clear_philos(t_data *data)
-{
-	data = (void*)data;
-	// int	i;
-
-	// i = 0;
-	// while (data->philos[i])
-}
-
 void	clear_data(t_data *data)
 {
-	if (data->philos)
-		clear_philos(data);
+	int i;
+	
+	i = -1;
+	if (data->data_lock.mut)
+		pthread_mutex_destroy(data->data_lock.mut);
+	if (data->msg_lock.mut)
+		pthread_mutex_destroy(data->msg_lock.mut);
+	while (i++ < data->n_philos)
+	{
+		if(data->forks[i].mut)
+			pthread_mutex_destroy(data->forks[i].mut);
+	}
+	i = -1;
+	while (i++ < data->n_philos)
+	{
+		if(data->philos[i].philo)
+			pthread_detach(data->philos[i].philo);
+	}
+}
+
+void	error_func(t_data *data)
+{
+	clear_data(data);
+	exit_phl("Unexpected error occured\n");
 }

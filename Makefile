@@ -6,7 +6,7 @@
 #    By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/07 15:02:59 by bbento-a          #+#    #+#              #
-#    Updated: 2024/09/30 10:22:33 by bbento-a         ###   ########.fr        #
+#    Updated: 2024/10/01 11:05:25 by bbento-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,9 +32,10 @@ RM				= rm -f
 # Source Files
 
 PHL_SRCS		=	main.c \
-					parse_args.c \
+					philos_init.c \
+					philos_at_table.c \
+					philos_activity.c \
 					ft_functions.c \
-					at_table.c \
 					exit_functions.c
 
 # Conversion of files (Linking and applying pattern substituition to all source files)
