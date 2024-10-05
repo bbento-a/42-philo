@@ -1,33 +1,41 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philos_at_table.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/30 09:43:32 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/01 11:04:06 by bbento-a         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+// /* ************************************************************************** */
+// /*                                                                            */
+// /*                                                        :::      ::::::::   */
+// /*   philos_at_table.c                                  :+:      :+:    :+:   */
+// /*                                                    +:+ +:+         +:+     */
+// /*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
+// /*                                                +#+#+#+#+#+   +#+           */
+// /*   Created: 2024/09/30 09:43:32 by bbento-a          #+#    #+#             */
+// /*   Updated: 2024/10/03 14:20:06 by bbento-a         ###   ########.fr       */
+// /*                                                                            */
+// /* ************************************************************************** */
 
 #include "philo.h"
 
 // This is the the function use for the "dining" simulation
 
-void	*at_table(void *dt)
+void	*at_table(void *phl_dt)
 {
-	t_data *data;
+	t_philo	*philo;
+	t_data	*data;
 	
-	data = (t_data *)dt;
-	ft_setting_threads();
-	while(/*philos havent died*/)
+	philo = (t_philo *)phl_dt;
+	data = philo->data;
+	ft_setting_threads(data);
+	// gettimeofday for when simu started
+	while(!is_dead(data, philo))
 	{
 		//eat
+		philo_eat(data, philo);
 		//sleep
+		if (!is_dead(data, philo))	
+			philo_sleep(data, philo);
 		//think (thinking time is necessary so the simulation is as fair as possible)
+		if (!is_dead(data, philo))
+			philo_think(data, philo);
 	}
 	// Do routine
-	return ((void*) dt);
+	return ;
 }
 // Main loop for the program
 
@@ -40,10 +48,10 @@ void	simulation_cycle(t_data *data)
 		// case for only 1 philo
 		return ;
 	}
-	i = -1;
-	while(i++ < data->n_philos)
+	i = 0;
+	while(i < data->n_philos)
 	{
-		pthread_create(&data->philos[i].philo, NULL, &at_table, &data);
+		pthread_create(&data->philos[i].philo, NULL, &at_table, &data->philos[i]);
+		i++;
 	}
-	ft_modify_mutex_bl(&data->data_lock, data->all_rdy, true)
 }

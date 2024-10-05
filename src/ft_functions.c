@@ -6,7 +6,7 @@
 /*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 15:50:08 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/01 10:47:18 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:06:25 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,26 @@ long	ft_atol(char *nb)
 }
 void	ft_setting_threads(t_data *data)
 {
-	while(!ft_get_mutex_bl(&data->data_lock, data->all_rdy))
-		;
+	pthread_mutex_lock(&data->sync_lock);
+	data->ready++;
+	pthread_mutex_unlock(&data->sync_lock);
+	while (data->ready != data->n_philos)
+	{ 
+		usleep(100);
+	}
 }
+// Conversion of gettimeofday() units to return in milliseconds
 
-void	ft_modify_mutex_bl(t_mutex *mutex, bool arg, bool value)
+uint64_t	define_time()
 {
-	pthread_mutex_unlock(mutex->mut);
-	arg = value;
-	pthread_mutex_lock(mutex->mut);
+	struct timeval time;
+
+	gettimeofday(&time, NULL);
+	return((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
-bool	ft_get_mutex_bl(t_mutex *mutex, bool value)
+// Returns the time elapsed from the simulation
+
+uint64_t	simul_time(t_data *data)
 {
-	bool	val;
-	
-	pthread_mutex_unlock(mutex->mut);
-	val = value;
-	pthread_mutex_lock(mutex->mut);
-	return (val);
+	return(define_time() - data->t_simustart);
 }

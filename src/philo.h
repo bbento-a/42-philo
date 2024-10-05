@@ -6,7 +6,7 @@
 /*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 15:05:59 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/01 11:08:11 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:08:56 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@
 
 typedef enum e_status
 {
-	E_SLEEPING,
-	E_EATING,
-	E_THINKING,
+	E_ALIVE,
 	E_DEAD,
 } t_status;
 
@@ -47,13 +45,14 @@ typedef struct s_mutex
 
 typedef struct s_philo
 {
+	int			nb;
 	pthread_t	philo;
-	int			n_philo;
 	uint64_t	t_last_meal;
 	
 	t_status	status;
 	t_mutex		*r_fork;
 	t_mutex		*l_fork;
+	t_data		*data;
 } t_philo;
 
 typedef struct s_data
@@ -66,9 +65,11 @@ typedef struct s_data
 
 	t_philo			*philos;
 	t_mutex			*forks;
-	t_mutex			data_lock;
-	t_mutex			msg_lock;
-	bool			all_rdy;
+	uint64_t		t_simustart;
+	pthread_mutex_t	msg_lock;
+	pthread_mutex_t	sync_lock;
+	pthread_mutex_t	death_lock;
+	int				ready;
 	bool			is_dead;
 	bool			ended;
 }	t_data;
@@ -85,16 +86,17 @@ void	*at_table(void *dt);
 void	simulation_cycle(t_data *data);
 
 // philos_activity.c
-// void	philo_eat(t_data *data);
-// void	philo_sleep(t_data *data);
-// void	philo_think(t_data *data);
-// void	write_philo_act(t_data *data);
+void	philo_eat(t_data *data, t_philo *philo);
+void	philo_sleep(t_data *data, t_philo *philo);
+void	philo_think(t_data *data, t_philo *philo);
+bool	is_dead(t_data *data, t_philo *philo);
+void	write_philo_act(t_data *data, t_philo *philo, char *msg);
 
 // ft_funtions.c
 void	exit_phl(char *msg);
 long	ft_atol(char *nb);
-void	ft_modify_mutex_bl(t_mutex *mutex, bool arg, bool value);
-bool	ft_get_mutex_bl(t_mutex *mutex, bool value);
+uint64_t	define_time();
+uint64_t	simul_time(t_data *data);
 
 // exit_functions.c
 void	p_msg(char *msg);

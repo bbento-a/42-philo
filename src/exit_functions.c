@@ -1,14 +1,14 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exit_functions.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/25 12:02:18 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/01 10:29:54 by bbento-a         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+// /* ************************************************************************** */
+// /*                                                                            */
+// /*                                                        :::      ::::::::   */
+// /*   exit_functions.c                                   :+:      :+:    :+:   */
+// /*                                                    +:+ +:+         +:+     */
+// /*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
+// /*                                                +#+#+#+#+#+   +#+           */
+// /*   Created: 2024/09/25 12:02:18 by bbento-a          #+#    #+#             */
+// /*   Updated: 2024/10/01 10:29:54 by bbento-a         ###   ########.fr       */
+// /*                                                                            */
+// /* ************************************************************************** */
 
 #include "philo.h"
 
@@ -28,10 +28,12 @@ void	clear_data(t_data *data)
 	int i;
 	
 	i = -1;
-	if (data->data_lock.mut)
-		pthread_mutex_destroy(data->data_lock.mut);
-	if (data->msg_lock.mut)
-		pthread_mutex_destroy(data->msg_lock.mut);
+	if (&data->msg_lock)
+		pthread_mutex_destroy(&data->msg_lock);
+	if (&data->sync_lock)
+		pthread_mutex_destroy(&data->sync_lock);
+	if (&data->death_lock)
+		pthread_mutex_destroy(&data->death_lock);
 	while (i++ < data->n_philos)
 	{
 		if(data->forks[i].mut)

@@ -1,14 +1,14 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philos_init.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/07 16:00:38 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/01 11:03:31 by bbento-a         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+// /* ************************************************************************** */
+// /*                                                                            */
+// /*                                                        :::      ::::::::   */
+// /*   philos_init.c                                      :+:      :+:    :+:   */
+// /*                                                    +:+ +:+         +:+     */
+// /*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
+// /*                                                +#+#+#+#+#+   +#+           */
+// /*   Created: 2024/09/07 16:00:38 by bbento-a          #+#    #+#             */
+// /*   Updated: 2024/10/03 12:37:17 by bbento-a         ###   ########.fr       */
+// /*                                                                            */
+// /* ************************************************************************** */
 
 #include "philo.h"
 
@@ -18,14 +18,10 @@ void	mutex_alloc(t_data *data)
 {
 	int	i;
 
-	if (!pthread_mutex_init(data->data_lock.mut, NULL))
+	if (!pthread_mutex_init(&data->sync_lock, NULL))
 		error_func(data);
-	data->data_lock.lock = false;
-	data->data_lock.nb = -1;
-	if (!pthread_mutex_init(data->msg_lock.mut, NULL))
+	if (!pthread_mutex_init(&data->msg_lock, NULL))
 		error_func(data);
-	data->msg_lock.lock = false;
-	data->msg_lock.nb = -1;
 	i = -1;
 	while (i++ < data->n_philos)
 	{
@@ -35,7 +31,6 @@ void	mutex_alloc(t_data *data)
 		data->forks[i].lock = false;
 	}
 }
-
 // Initiates and allocates all philos (threads)
 
 void	philos_alloc(t_data *data)
@@ -46,12 +41,13 @@ void	philos_alloc(t_data *data)
 	i = -1;
 	while (i++ < data->n_philos)
 	{
-		data->philos[i].n_philo = i;
-		data->philos[i].status = -1;
+		data->philos[i].nb = i;
+		data->philos[i].status = E_ALIVE;
 		data->philos[i].r_fork = &data->forks[i];
 		l_nb = (i + 1) % data->n_philos;
 		data->philos[i].l_fork = &data->forks[l_nb];
 		data->philos[i].t_last_meal = 0;
+		data->philos[i].data = data;
 	}
 }
 // Initiates all values from data
@@ -72,7 +68,7 @@ void	philos_init(t_data *data, char **args)
 		|| data->t_sleep > LONG_MAX || data->n_philos > INT_MAX
 		|| data->meals > INT_MAX)
 		exit_phl("Arguments values are too big");
-	data->all_rdy = false;
+	data->ready = 0;
 	data->is_dead = false;
 	data->ended = false;
 	data->philos = malloc(sizeof(t_philo) * data->n_philos);
