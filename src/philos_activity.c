@@ -18,9 +18,10 @@
 
 void	philo_eat(t_data *data, t_philo *philo)
 {
-	//takes forks
+	take_forks(data, philo);
+	if (!is_dead(data, philo))
 	usleep(data->t_eat * 1000);
-	//leaves forks
+	drop_forks(data, philo);
 	write_philo_act(data, philo, "is eating");
 }
 // Time philo takes to sleep (4th arg)
@@ -47,7 +48,7 @@ bool	is_dead(t_data *data, t_philo *philo)
 {
 	if (philo->status == E_DEAD)
 		return (true);
-	else if (philo->t_last_meal >= data->t_die)
+	if (simul_time(data) - philo->t_last_meal >= data->t_die)
 	{
 		philo->status = E_DEAD;
 		write_philo_act(data, philo, "has died");

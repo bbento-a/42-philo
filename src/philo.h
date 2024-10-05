@@ -6,7 +6,7 @@
 /*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 15:05:59 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/04 17:08:56 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/05 19:11:49 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,10 @@ void	philo_sleep(t_data *data, t_philo *philo);
 void	philo_think(t_data *data, t_philo *philo);
 bool	is_dead(t_data *data, t_philo *philo);
 void	write_philo_act(t_data *data, t_philo *philo, char *msg);
+
+// philos_forks.c
+void	take_forks(t_data *data, t_philo *philo);
+void	drop_forks(t_data *data, t_philo *philo);
 
 // ft_funtions.c
 void	exit_phl(char *msg);
