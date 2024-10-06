@@ -6,7 +6,7 @@
 /*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 15:05:59 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/05 19:11:49 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/06 16:02:14 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_philo
 	pthread_t	philo;
 	uint64_t	t_last_meal;
 	
+	int			meals_nb;
 	t_status	status;
 	t_mutex		*r_fork;
 	t_mutex		*l_fork;
@@ -65,6 +66,7 @@ typedef struct s_data
 
 	t_philo			*philos;
 	t_mutex			*forks;
+	uint64_t		t_think;
 	uint64_t		t_simustart;
 	pthread_mutex_t	msg_lock;
 	pthread_mutex_t	sync_lock;
@@ -79,7 +81,7 @@ typedef struct s_data
 //
 
 // philos_init.c
-void	philos_init(t_data *data, char **args);
+void	data_init(t_data *data, char **args);
 
 // philos_at_table.c
 void	*at_table(void *dt);

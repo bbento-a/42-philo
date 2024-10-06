@@ -12,6 +12,19 @@
 
 #include "philo.h"
 
+// Defines thinking time for various cases
+
+void	define_t_tthink(t_data *data)
+{
+	if ((data->n_philos % 2 == 0 && data->t_eat <= data->t_sleep)
+		|| data->n_philos <= 1)
+		data->t_think = 0;
+	else if (data->n_philos % 2 == 0 && data->t_eat > data->t_sleep)
+		data->t_think = data->t_eat - data->t_sleep;
+	else if (data->n_philos % 2 != 0)
+		data->t_think = data->t_eat * 2 - data->t_sleep;
+}
+
 // Initiates and allocates all forks and other mutexs
 
 void	mutex_alloc(t_data *data)
@@ -43,6 +56,10 @@ void	philos_alloc(t_data *data)
 	{
 		data->philos[i].nb = i;
 		data->philos[i].status = E_ALIVE;
+		if (data->meals != -1)
+			data->philos[i].meals_nb = 0;
+		else
+			data->philos[i].meals_nb = -1;
 		data->philos[i].r_fork = &data->forks[i];
 		l_nb = (i + 1) % data->n_philos;
 		data->philos[i].l_fork = &data->forks[l_nb];
@@ -52,7 +69,7 @@ void	philos_alloc(t_data *data)
 }
 // Initiates all values from data
 
-void	philos_init(t_data *data, char **args)
+void	data_init(t_data *data, char **args)
 {
 	data->n_philos = (int)ft_atol(args[1]);
 	data->t_die = (uint64_t)ft_atol(args[2]);
@@ -68,6 +85,7 @@ void	philos_init(t_data *data, char **args)
 		|| data->t_sleep > LONG_MAX || data->n_philos > INT_MAX
 		|| data->meals > INT_MAX)
 		exit_phl("Arguments values are too big");
+	define_t_tthink(data);
 	data->ready = 0;
 	data->is_dead = false;
 	data->ended = false;

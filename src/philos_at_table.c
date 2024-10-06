@@ -22,11 +22,13 @@ void	*at_table(void *phl_dt)
 	philo = (t_philo *)phl_dt;
 	data = philo->data;
 	ft_setting_threads(data);
-	// gettimeofday for when simu started
+	data->t_simustart = define_time();
 	while(!is_dead(data, philo))
 	{
 		//eat
 		philo_eat(data, philo);
+		if (philo->meals_nb == data->meals && data->meals != -1) // is philo full?
+			break ;
 		//sleep
 		if (!is_dead(data, philo))	
 			philo_sleep(data, philo);
@@ -37,6 +39,25 @@ void	*at_table(void *phl_dt)
 	// Do routine
 	return ;
 }
+
+// Function to handle 1 philo at the simulation (it has to die since it doesn't have a 2nd fork)
+
+void	*alone_at_table(void *phl_dt)
+{
+	t_philo	*philo;
+	t_data	*data;
+	
+	philo = (t_philo *)phl_dt;
+	data = philo->data;
+	ft_setting_threads(data);
+	data->t_simustart = define_time();
+	while (!is_dead(data, philo))
+	{
+		usleep(100);
+	}
+}
+
+
 // Main loop for the program
 
 void	simulation_cycle(t_data *data)
@@ -46,6 +67,7 @@ void	simulation_cycle(t_data *data)
 	if (data->n_philos == 1)
 	{
 		// case for only 1 philo
+		pthread_create(&data->philos[0].philo, NULL, &alone_at_table, &data->philos[0]);
 		return ;
 	}
 	i = 0;

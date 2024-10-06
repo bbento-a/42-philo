@@ -6,7 +6,7 @@
 /*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 15:04:46 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/04 15:58:08 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/06 16:02:21 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	parse_args(argv);
-	philos_init(&data, argv);
+	data_init(&data, argv);
 	if (data.meals != 0)
 		simulation_cycle(&data);
 	clear_data(&data);

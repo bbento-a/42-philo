@@ -19,17 +19,28 @@
 void	philo_eat(t_data *data, t_philo *philo)
 {
 	take_forks(data, philo);
-	if (!is_dead(data, philo))
-	usleep(data->t_eat * 1000);
-	drop_forks(data, philo);
 	write_philo_act(data, philo, "is eating");
+	if (!is_dead(data, philo))
+		usleep(data->t_eat * 1000);
+	drop_forks(data, philo);
+	philo->t_last_meal = simul_time(data);
+	philo->meals_nb++;
 }
 // Time philo takes to sleep (4th arg)
 
 void	philo_sleep(t_data *data, t_philo *philo)
 {
-	usleep(data->t_sleep * 1000);
+	uint64_t	asleep;
+	uint64_t	bgn;
+
+	asleep = 0;
+	bgn = simul_time(data);
 	write_philo_act(data, philo, "is sleeping");
+	while (!is_dead(data, philo) && asleep <= data->t_sleep)
+	{
+		usleep(100);
+		asleep = simul_time(data) - bgn;
+	}
 }
 // This is needed for fairness reasons. This prevents philos from eating 
 // right after they wake up. This is very important in case there is an odd number
