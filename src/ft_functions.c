@@ -6,7 +6,7 @@
 /*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 15:50:08 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/04 17:06:25 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/08 12:28:34 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ long	ft_atol(char *nb)
 	int		i;
 	
 	i = 0;
+	res = 0;
 	while (nb[i] >= '0' && nb[i] <= '9')
 	{
 		res = res * 10 + (nb[i] - '0');

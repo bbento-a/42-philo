@@ -36,8 +36,7 @@ void	*at_table(void *phl_dt)
 		if (!is_dead(data, philo))
 			philo_think(data, philo);
 	}
-	// Do routine
-	return ;
+	return (void*)phl_dt;
 }
 
 // Function to handle 1 philo at the simulation (it has to die since it doesn't have a 2nd fork)
@@ -55,6 +54,7 @@ void	*alone_at_table(void *phl_dt)
 	{
 		usleep(100);
 	}
+	return (void*)phl_dt;
 }
 
 

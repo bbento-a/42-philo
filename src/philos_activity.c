@@ -22,7 +22,7 @@ void	philo_eat(t_data *data, t_philo *philo)
 	write_philo_act(data, philo, "is eating");
 	if (!is_dead(data, philo))
 		usleep(data->t_eat * 1000);
-	drop_forks(data, philo);
+	drop_forks(philo);
 	philo->t_last_meal = simul_time(data);
 	philo->meals_nb++;
 }
@@ -50,8 +50,18 @@ void	philo_sleep(t_data *data, t_philo *philo)
 
 void	philo_think(t_data *data, t_philo *philo)
 {
-	usleep(data->t_eat);
+	uint64_t	think_elps;
+	uint64_t	bgn;
+
+	think_elps = 0;
+	bgn = simul_time(data);
 	write_philo_act(data, philo, "is thinking");
+	while (!is_dead(data, philo) && think_elps <= data->t_think)
+	{
+		usleep(100);
+		think_elps = simul_time(data) - bgn;
+	}
+	usleep(data->t_eat);
 }
 // Checks if is there a philo dead during simulation
 
@@ -72,6 +82,6 @@ bool	is_dead(t_data *data, t_philo *philo)
 void	write_philo_act(t_data *data, t_philo *philo, char *msg)
 {
 	pthread_mutex_lock(&data->msg_lock);
-	printf("%lld --- Philo %d %s\n", simul_time(data), philo->nb, msg);
+	printf("%ld --- Philo %d %s\n", simul_time(data), philo->nb, msg);
 	pthread_mutex_unlock(&data->msg_lock);
 }

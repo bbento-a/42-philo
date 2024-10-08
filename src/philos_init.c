@@ -31,17 +31,20 @@ void	mutex_alloc(t_data *data)
 {
 	int	i;
 
-	if (!pthread_mutex_init(&data->sync_lock, NULL))
+	if (pthread_mutex_init(&data->msg_lock, NULL))
 		error_func(data);
-	if (!pthread_mutex_init(&data->msg_lock, NULL))
+	if (pthread_mutex_init(&data->sync_lock, NULL))
 		error_func(data);
-	i = -1;
-	while (i++ < data->n_philos)
+	if (pthread_mutex_init(&data->death_lock, NULL))
+		error_func(data);
+	i = 0;
+	while (i < data->n_philos)
 	{
-		if (!pthread_mutex_init(data->forks[i].mut, NULL))
+		if (pthread_mutex_init(&data->forks[i].mut, NULL))
 			error_func(data);
 		data->forks[i].nb = i;
 		data->forks[i].lock = false;
+		i++;
 	}
 }
 // Initiates and allocates all philos (threads)
@@ -51,8 +54,8 @@ void	philos_alloc(t_data *data)
 	int	i;
 	int	l_nb;
 
-	i = -1;
-	while (i++ < data->n_philos)
+	i = 0;
+	while (i < data->n_philos)
 	{
 		data->philos[i].nb = i;
 		data->philos[i].status = E_ALIVE;
@@ -65,6 +68,7 @@ void	philos_alloc(t_data *data)
 		data->philos[i].l_fork = &data->forks[l_nb];
 		data->philos[i].t_last_meal = 0;
 		data->philos[i].data = data;
+		i++;
 	}
 }
 // Initiates all values from data
@@ -78,7 +82,7 @@ void	data_init(t_data *data, char **args)
 	if (args[5])
 		data->meals = (int)ft_atol(args[5]);
 	else
-		(*data).meals = -1;
+		data->meals = -1;
 	if (data->n_philos == 0)
 		exit_phl("Invalid number of philos");
 	if (data->t_die > LONG_MAX || data->t_eat > LONG_MAX

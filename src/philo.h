@@ -6,7 +6,7 @@
 /*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 15:05:59 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/06 16:02:14 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/08 13:32:04 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 //  STUCTS
 //
 
+typedef struct s_data t_data;
+
 typedef enum e_status
 {
 	E_ALIVE,
@@ -40,7 +42,7 @@ typedef struct s_mutex
 {
 	int				nb;
 	bool			lock;
-	pthread_mutex_t	*mut;
+	pthread_mutex_t	mut;
 } t_mutex;
 
 typedef struct s_philo
@@ -96,11 +98,12 @@ void	write_philo_act(t_data *data, t_philo *philo, char *msg);
 
 // philos_forks.c
 void	take_forks(t_data *data, t_philo *philo);
-void	drop_forks(t_data *data, t_philo *philo);
+void	drop_forks(t_philo *philo);
 
 // ft_funtions.c
 void	exit_phl(char *msg);
 long	ft_atol(char *nb);
+void	ft_setting_threads(t_data *data);
 uint64_t	define_time();
 uint64_t	simul_time(t_data *data);
 

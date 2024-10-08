@@ -6,7 +6,7 @@
 #    By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/07 15:02:59 by bbento-a          #+#    #+#              #
-#    Updated: 2024/10/01 11:05:25 by bbento-a         ###   ########.fr        #
+#    Updated: 2024/10/08 11:24:09 by bbento-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ PHL_SRCS		=	main.c \
 					philos_init.c \
 					philos_at_table.c \
 					philos_activity.c \
+					philos_forks.c \
 					ft_functions.c \
 					exit_functions.c
 
