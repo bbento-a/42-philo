@@ -6,7 +6,7 @@
 /*   By: bbento-a <bbento-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 08:31:39 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/15 15:05:07 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/15 19:19:26 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void	take_forks(t_data *data, t_philo *philo)
 		{
 			philo->l_fork->lock = true;
 			pthread_mutex_unlock(&philo->l_fork->mut);
+			write_philo_act(data, philo, "has taken a fork");
 			break ;
 		}
 		pthread_mutex_unlock(&philo->l_fork->mut); // if not, it will just unlock the mutex for other philos check as well
 	}
-	write_philo_act(data, philo, "has taken a fork");
 	while (!is_dead(data, philo))
 	{
 		pthread_mutex_lock(&philo->r_fork->mut);
@@ -35,11 +35,11 @@ void	take_forks(t_data *data, t_philo *philo)
 		{
 			philo->r_fork->lock = true;
 			pthread_mutex_unlock(&philo->r_fork->mut);
+			write_philo_act(data, philo, "has taken a fork");
 			break ;
 		}
 		pthread_mutex_unlock(&philo->r_fork->mut);
 	}
-	write_philo_act(data, philo, "has taken a fork");
 }
 // Takes a philo after eating and drops his forks
 
