@@ -28,25 +28,25 @@ void	clear_data(t_data *data)
 	int i;
 	
 	i = 0;
-	if (&data->msg_lock)
-		pthread_mutex_destroy(&data->msg_lock);
-	if (&data->sync_lock)
-		pthread_mutex_destroy(&data->sync_lock);
-	if (&data->death_lock)
-		pthread_mutex_destroy(&data->death_lock);
+	// if (&data->msg_lock)
+	pthread_mutex_destroy(&data->msg_lock);
+	// if (&data->sync_lock)
+	pthread_mutex_destroy(&data->sync_lock);
+	// if (&data->death_lock)
+	pthread_mutex_destroy(&data->death_lock);
 	while (i < data->n_philos)
 	{
-		if(&data->forks[i].mut)
-			pthread_mutex_destroy(&data->forks[i].mut);
+		// if(&data->forks[i].mut)
+		pthread_mutex_destroy(&data->forks[i].mut);
 		i++;
 	}
 	i = 0;
-	while (i++ < data->n_philos)
-	{
-		if(data->philos[i].philo)
-			pthread_detach(data->philos[i].philo);
-		i++;
-	}
+	// while (i++ < data->n_philos)
+	// {
+	// 	if(data->philos[i].philo)
+	// 		pthread_detach(data->philos[i].philo);
+	// 	i++;
+	// }
 }
 
 void	error_func(t_data *data)

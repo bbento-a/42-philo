@@ -39,9 +39,9 @@ void	*at_table(void *phl_dt)
 		if (!is_dead(data, philo))
 			philo_think(data, philo);
 		else
-			return (void*)phl_dt;
+			return ((void*)phl_dt);
 	}
-	return (void*)phl_dt;
+	return ((void*)phl_dt);
 }
 
 // Function to handle 1 philo at the simulation (it has to die since it doesn't have a 2nd fork)
@@ -69,12 +69,12 @@ void	simulation_cycle(t_data *data)
 {
 	int	i;
 
-	if (data->n_philos == 1)
-	{
-		// case for only 1 philo
-		pthread_create(&data->philos[0].philo, NULL, &alone_at_table, &data->philos[0]);
-		return ;
-	}
+	// if (data->n_philos == 1)
+	// {
+	// 	// case for only 1 philo
+	// 	pthread_create(&data->philos[0].philo, NULL, &alone_at_table, &data->philos[0]);
+	// 	return ;
+	// }
 	// data->t_simustart = define_time();
 	i = 0;
 	while(i < data->n_philos)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philos_forks.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: bbento-a <bbento-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 08:31:39 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/14 19:40:07 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:05:07 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,26 @@ void	take_forks(t_data *data, t_philo *philo)
 {
 	while (!is_dead(data, philo))
 	{
-		pthread_mutex_lock(&philo->r_fork->mut);
-		if (philo->r_fork->lock == false)  // If the fork is not taken, then philo will take it
-		{
-			philo->r_fork->lock = true;
-			pthread_mutex_unlock(&philo->r_fork->mut);
-			break ;
-		}
-		pthread_mutex_unlock(&philo->r_fork->mut); // if not, it will just unlock the mutex for other philos check as well
-	}
-	write_philo_act(data, philo, "has taken a fork");
-	while (!is_dead(data, philo))
-	{
 		pthread_mutex_lock(&philo->l_fork->mut);
-		if (philo->l_fork->lock == false)
+		if (philo->l_fork->lock == false)  // If the fork is not taken, then philo will take it
 		{
 			philo->l_fork->lock = true;
 			pthread_mutex_unlock(&philo->l_fork->mut);
 			break ;
 		}
-		pthread_mutex_unlock(&philo->l_fork->mut);
+		pthread_mutex_unlock(&philo->l_fork->mut); // if not, it will just unlock the mutex for other philos check as well
+	}
+	write_philo_act(data, philo, "has taken a fork");
+	while (!is_dead(data, philo))
+	{
+		pthread_mutex_lock(&philo->r_fork->mut);
+		if (philo->r_fork->lock == false)
+		{
+			philo->r_fork->lock = true;
+			pthread_mutex_unlock(&philo->r_fork->mut);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->r_fork->mut);
 	}
 	write_philo_act(data, philo, "has taken a fork");
 }
