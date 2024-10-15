@@ -25,19 +25,21 @@ void	*at_table(void *phl_dt)
 	data->t_simustart = define_time();
 	while(!is_dead(data, philo))
 	{
-		//eat
 		// printf ("%d will eat\n", philo->nb);
 		philo_eat(data, philo);
 		if (philo->meals_nb == data->meals && data->meals != -1) // is philo full?
 			break ;
-		//sleep
 		// printf ("%d will sleep\n", philo->nb);
 		if (!is_dead(data, philo))	
 			philo_sleep(data, philo);
+		else
+			return (void*)phl_dt;
 		//think (thinking time is necessary so the simulation is as fair as possible)
 		// printf ("%d will think\n", philo->nb);
 		if (!is_dead(data, philo))
 			philo_think(data, philo);
+		else
+			return (void*)phl_dt;
 	}
 	return (void*)phl_dt;
 }

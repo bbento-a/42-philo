@@ -64,20 +64,46 @@ void	philo_think(t_data *data, t_philo *philo)
 	}
 	usleep(data->t_eat);
 }
+
 // Checks if is there a philo dead during simulation
 
 bool	is_dead(t_data *data, t_philo *philo)
 {
-	if (philo->status == E_DEAD)
-		return (true);
+	if (philo->status == E_ALIVE)
+	{
+		pthread_mutex_lock(&data->death_lock);
+		if (data->is_dead == E_DEAD)
+			return (true);
+		pthread_mutex_unlock(&data->death_lock);
+	}
 	if (simul_time(data) - philo->t_last_meal >= data->t_die)
 	{
+		pthread_mutex_lock(&data->death_lock);
+		data->is_dead = E_DEAD;
+		pthread_mutex_unlock(&data->death_lock);
 		philo->status = E_DEAD;
 		write_philo_act(data, philo, "has died");
 		return (true);
 	}
 	return (false);
 }
+
+
+
+// Checks if is there a philo dead during simulation
+
+// bool	is_dead(t_data *data, t_philo *philo)
+// {
+// 	if (philo->status == E_DEAD)
+// 		return (true);
+// 	if (simul_time(data) - philo->t_last_meal >= data->t_die)
+// 	{
+// 		philo->status = E_DEAD;
+// 		write_philo_act(data, philo, "has died");
+// 		return (true);
+// 	}
+// 	return (false);
+// }
 // Displays a message of the philo's activity
 
 void	write_philo_act(t_data *data, t_philo *philo, char *msg)
