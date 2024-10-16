@@ -1,14 +1,14 @@
-// /* ************************************************************************** */
-// /*                                                                            */
-// /*                                                        :::      ::::::::   */
-// /*   philos_activity.c                                  :+:      :+:    :+:   */
-// /*                                                    +:+ +:+         +:+     */
-// /*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
-// /*                                                +#+#+#+#+#+   +#+           */
-// /*   Created: 2024/10/01 10:58:40 by bbento-a          #+#    #+#             */
-// /*   Updated: 2024/10/03 14:30:47 by bbento-a         ###   ########.fr       */
-// /*                                                                            */
-// /* ************************************************************************** */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philos_activity.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bbento-a <bbento-a@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/01 10:58:40 by bbento-a          #+#    #+#             */
+/*   Updated: 2024/10/16 15:20:08 by bbento-a         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "philo.h"
 
@@ -42,8 +42,6 @@ void	philo_sleep(t_data *data, t_philo *philo)
 		usleep(100);
 		asleep = simul_time(data) - bgn;
 	}
-	// if (!is_dead(data, philo))
-	// 	usleep(data->t_sleep * 1000);
 }
 // This is needed for fairness reasons. This prevents philos from eating 
 // right after they wake up. This is very important in case there is an odd number
@@ -93,7 +91,6 @@ bool	is_dead(t_data *data, t_philo *philo)
 void	write_philo_act(t_data *data, t_philo *philo, char *msg)
 {
 	pthread_mutex_lock(&data->msg_lock);
-	// printf("%ld --- Philo %d %s\n", simul_time(data), philo->nb, msg);
 	printf("%ld %d %s\n", simul_time(data), philo->nb, msg);
 	pthread_mutex_unlock(&data->msg_lock);
 }

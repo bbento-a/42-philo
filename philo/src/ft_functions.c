@@ -6,7 +6,7 @@
 /*   By: bbento-a <bbento-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 15:50:08 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/16 12:49:23 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/16 15:21:47 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	setting_threads(t_data *data)
 {
 	pthread_mutex_lock(&data->sync_lock);
 	data->ready++;
-	// printf("%d\n", data->ready); // For debug
 	pthread_mutex_unlock(&data->sync_lock);
 	while (data->ready != data->n_philos)
 	{

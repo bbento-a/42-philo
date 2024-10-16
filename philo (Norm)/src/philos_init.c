@@ -1,34 +1,27 @@
-// /* ************************************************************************** */
-// /*                                                                            */
-// /*                                                        :::      ::::::::   */
-// /*   philos_init.c                                      :+:      :+:    :+:   */
-// /*                                                    +:+ +:+         +:+     */
-// /*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
-// /*                                                +#+#+#+#+#+   +#+           */
-// /*   Created: 2024/09/07 16:00:38 by bbento-a          #+#    #+#             */
-// /*   Updated: 2024/10/03 12:37:17 by bbento-a         ###   ########.fr       */
-// /*                                                                            */
-// /* ************************************************************************** */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philos_init.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/07 16:00:38 by bbento-a          #+#    #+#             */
+/*   Updated: 2024/10/16 15:00:57 by bbento-a         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "philo.h"
-
-// Defines thinking time for various cases
 
 void	define_t_tthink(t_data *data)
 {
 	data->t_think = 0;
-	// if ((data->n_philos % 2 == 0 && data->t_eat <= data->t_sleep)
-	// 	|| data->n_philos <= 1) //	if philos are even, there is no thinking time (in theory)
-	// 	data->t_think = 0;
 	if (data->n_philos % 2 == 0 && data->t_eat > data->t_sleep)
-		data->t_think = data->t_eat - data->t_sleep; // if they're odd, and eating time is bigger than sleeping, then think and sleep has to be equal to eat
-	else if (data->n_philos % 2 != 0) // if eat time is less than sleeping
+		data->t_think = data->t_eat - data->t_sleep;
+	else if (data->n_philos % 2 != 0)
 		data->t_think = data->t_eat * 2 - data->t_sleep;
 	if (data->t_think < 0)
 		data->t_think = 0;
 }
-
-// Initiates and allocates all forks and other mutexs
 
 void	mutex_alloc(t_data *data)
 {
@@ -52,7 +45,6 @@ void	mutex_alloc(t_data *data)
 		i++;
 	}
 }
-// Initiates and allocates all philos (threads)
 
 void	philos_alloc(t_data *data)
 {
