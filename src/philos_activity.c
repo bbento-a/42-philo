@@ -23,7 +23,6 @@ void	philo_eat(t_data *data, t_philo *philo)
 		write_philo_act(data, philo, "is eating");
 	if (!is_dead(data, philo))
 		usleep(data->t_eat * 1000);
-	// printf ("%d will drop forks\n", philo->nb);
 	drop_forks(philo);
 	philo->t_last_meal = simul_time(data);
 	philo->meals_nb++;
@@ -43,6 +42,8 @@ void	philo_sleep(t_data *data, t_philo *philo)
 		usleep(100);
 		asleep = simul_time(data) - bgn;
 	}
+	// if (!is_dead(data, philo))
+	// 	usleep(data->t_sleep * 1000);
 }
 // This is needed for fairness reasons. This prevents philos from eating 
 // right after they wake up. This is very important in case there is an odd number
@@ -78,7 +79,6 @@ bool	is_dead(t_data *data, t_philo *philo)
 	pthread_mutex_unlock(&data->death_lock);
 	if (simul_time(data) - philo->t_last_meal >= data->t_die)
 	{
-		// printf("Actual time of the simul: %ld\n", simul_time(data));
 		pthread_mutex_lock(&data->death_lock);
 		data->is_dead = E_DEAD;
 		pthread_mutex_unlock(&data->death_lock);
@@ -88,22 +88,6 @@ bool	is_dead(t_data *data, t_philo *philo)
 	return (false);
 }
 
-
-
-// Checks if is there a philo dead during simulation
-
-// bool	is_dead(t_data *data, t_philo *philo)
-// {
-// 	if (philo->status == E_DEAD)
-// 		return (true);
-// 	if (simul_time(data) - philo->t_last_meal >= data->t_die)
-// 	{
-// 		philo->status = E_DEAD;
-// 		write_philo_act(data, philo, "has died");
-// 		return (true);
-// 	}
-// 	return (false);
-// }
 // Displays a message of the philo's activity
 
 void	write_philo_act(t_data *data, t_philo *philo, char *msg)
@@ -113,25 +97,3 @@ void	write_philo_act(t_data *data, t_philo *philo, char *msg)
 	printf("%ld %d %s\n", simul_time(data), philo->nb, msg);
 	pthread_mutex_unlock(&data->msg_lock);
 }
-
-
-// backup func
-
-// void	philo_eat(t_data *data, t_philo *philo)
-// {
-// 	uint64_t	eat_elps;
-// 	uint64_t	bgn;
-
-// 	eat_elps = 0;
-// 	bgn = simul_time(data);
-// 	take_forks(data, philo);
-// 	write_philo_act(data, philo, "is eating");
-// 	if (!is_dead(data, philo) && eat_elps <= data->t_eat)
-// 	{
-// 		usleep(100);
-// 		eat_elps = simul_time(data) - bgn;
-// 	}
-// 	drop_forks(philo);
-// 	philo->t_last_meal = simul_time(data);
-// 	philo->meals_nb++;
-// }

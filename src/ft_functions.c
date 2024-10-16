@@ -6,7 +6,7 @@
 /*   By: bbento-a <bbento-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 15:50:08 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/16 10:26:23 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:49:23 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,5 @@ uint64_t	define_time()
 
 uint64_t	simul_time(t_data *data)
 {
-	uint64_t	res;
-	uint64_t	simul;
-
-	simul = data->t_simustart;
-	res = define_time() - simul;
-	return(res);
+	return(define_time() - data->t_simustart);
 }

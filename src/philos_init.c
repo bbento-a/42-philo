@@ -57,13 +57,11 @@ void	mutex_alloc(t_data *data)
 void	philos_alloc(t_data *data)
 {
 	int	i;
-	// int	l_nb;
 
 	i = 0;
 	while (i < data->n_philos)
 	{
 		data->philos[i].nb = i + 1;
-		data->philos[i].status = E_ALIVE;
 		if (data->meals != -1)
 			data->philos[i].meals_nb = 0;
 		else
@@ -71,22 +69,30 @@ void	philos_alloc(t_data *data)
 		if (data->philos[i].nb % 2 == 0)
 		{
 			data->philos[i].r_fork = &data->forks[i];
-			// l_nb = (i + 1) % data->n_philos;
 			data->philos[i].l_fork = &data->forks[(i + 1) % data->n_philos];
-			// printf("right fork of philo %d: %d\n", data->philos[i].nb, data->forks[i].nb);
-			// printf("left fork of philo %d: %d\n", data->philos[i].nb, data->forks[(i + 1) % data->n_philos].nb);
 		}
 		else if (data->philos[i].nb % 2 != 0)
 		{
 			data->philos[i].r_fork = &data->forks[(i + 1) % data->n_philos];
 			data->philos[i].l_fork = &data->forks[i];
-			// printf("right fork of philo %d: %d\n", data->philos[i].nb, data->forks[(i + 1) % data->n_philos].nb);
-			// printf("left fork of philo %d: %d\n", data->philos[i].nb, data->forks[i].nb);
 		}
 		data->philos[i].t_last_meal = 0;
 		data->philos[i].data = data;
 		i++;
 	}
+}
+// Few checks for data_init()
+
+void	validate_data(t_data *data)
+{
+	if (data->n_philos == 0)
+		exit_phl("Invalid number of philos\n");
+	if (data->t_die > LONG_MAX || data->t_eat > LONG_MAX
+		|| data->t_sleep > LONG_MAX || data->n_philos > INT_MAX
+		|| data->meals > INT_MAX)
+		exit_phl("Arguments values are too big\n");
+	if (data->t_die < 1 || data->t_eat < 1 || data->t_sleep < 1)
+		exit_phl("Values must be higher\n");
 }
 // Initiates all values from data
 
@@ -100,12 +106,7 @@ void	data_init(t_data *data, char **args)
 		data->meals = (int)ft_atol(args[5]);
 	else
 		data->meals = -1;
-	if (data->n_philos == 0)
-		exit_phl("Invalid number of philos\n");
-	if (data->t_die > LONG_MAX || data->t_eat > LONG_MAX
-		|| data->t_sleep > LONG_MAX || data->n_philos > INT_MAX
-		|| data->meals > INT_MAX)
-		exit_phl("Arguments values are too big\n");
+	validate_data(data);
 	define_t_tthink(data);
 	data->ready = 0;
 	data->is_dead = false;
@@ -115,6 +116,6 @@ void	data_init(t_data *data, char **args)
 	data->forks = malloc(sizeof(t_mutex) * data->n_philos);
 	if (!data->forks || !data->philos)
 		return ;
-	mutex_alloc(data);
 	philos_alloc(data);
+	mutex_alloc(data);
 }

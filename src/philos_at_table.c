@@ -21,8 +21,10 @@ void	*at_table(void *phl_dt)
 	
 	philo = (t_philo *)phl_dt;
 	data = philo->data;
-	setting_threads(data);
-	// setting_simustart(data);
+	// setting_threads(data);
+	if (philo->nb % 2 == 0)
+		usleep(10000);
+	setting_simustart(data);
 	// data->t_simustart = define_time();
 	while(!is_dead(data, philo))
 	{
@@ -48,7 +50,6 @@ void	simulation_cycle(t_data *data)
 {
 	int	i;
 
-	data->t_simustart = define_time();
 	i = 0;
 	while(i < data->n_philos)
 	{

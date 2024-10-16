@@ -6,7 +6,7 @@
 /*   By: bbento-a <bbento-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 15:05:59 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/16 10:25:59 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:53:38 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ typedef struct s_philo
 	uint64_t	t_last_meal;
 	
 	int			meals_nb;
-	t_status	status;
 	t_mutex		*r_fork;
 	t_mutex		*l_fork;
 	t_data		*data;
@@ -102,7 +101,6 @@ void	take_forks(t_data *data, t_philo *philo);
 void	drop_forks(t_philo *philo);
 
 // ft_funtions.c
-void	exit_phl(char *msg);
 long	ft_atol(char *nb);
 void	setting_threads(t_data *data);
 void	setting_simustart(t_data *data);
@@ -110,6 +108,7 @@ uint64_t	define_time();
 uint64_t	simul_time(t_data *data);
 
 // exit_functions.c
+void	exit_phl(char *msg);
 void	p_msg(char *msg);
 void	error_func(t_data *data);
 void	clear_data(t_data *data);

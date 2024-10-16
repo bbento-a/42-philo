@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: bbento-a <bbento-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 15:04:46 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/08 12:15:52 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:07:22 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	parse_args(char **args)
 			if (args[i][j] >= '0' && args[i][j] <= '9')
 				j++;
 			else
-				exit_phl("Arguments can only be positive numbers\n");
+				exit_phl("Arguments can only be digits\n");
 		}
 		i++;
 	}
