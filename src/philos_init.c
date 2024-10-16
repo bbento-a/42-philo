@@ -38,6 +38,8 @@ void	mutex_alloc(t_data *data)
 		error_func(data);
 	if (pthread_mutex_init(&data->sync_lock, NULL))
 		error_func(data);
+	if (pthread_mutex_init(&data->sync2_lock, NULL))
+		error_func(data);
 	if (pthread_mutex_init(&data->death_lock, NULL))
 		error_func(data);
 	i = 0;
@@ -108,6 +110,7 @@ void	data_init(t_data *data, char **args)
 	data->ready = 0;
 	data->is_dead = false;
 	data->ended = false;
+	data->t_simustart = 0;
 	data->philos = malloc(sizeof(t_philo) * data->n_philos);
 	data->forks = malloc(sizeof(t_mutex) * data->n_philos);
 	if (!data->forks || !data->philos)

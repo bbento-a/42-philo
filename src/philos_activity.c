@@ -69,15 +69,13 @@ void	philo_think(t_data *data, t_philo *philo)
 
 bool	is_dead(t_data *data, t_philo *philo)
 {
-	bool	res;
-
-	res = false;
 	pthread_mutex_lock(&data->death_lock);
 	if (data->is_dead == E_DEAD)
-		res = true;
-	pthread_mutex_unlock(&data->death_lock);
-	if (res == true)
+	{
+		pthread_mutex_unlock(&data->death_lock);
 		return (true);
+	}
+	pthread_mutex_unlock(&data->death_lock);
 	if (simul_time(data) - philo->t_last_meal >= data->t_die)
 	{
 		// printf("Actual time of the simul: %ld\n", simul_time(data));

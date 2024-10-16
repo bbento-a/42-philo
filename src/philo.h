@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: bbento-a <bbento-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 15:05:59 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/08 13:32:04 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/16 10:25:59 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_data
 	uint64_t		t_simustart;
 	pthread_mutex_t	msg_lock;
 	pthread_mutex_t	sync_lock;
+	pthread_mutex_t	sync2_lock;
 	pthread_mutex_t	death_lock;
 	int				ready;
 	bool			is_dead;
@@ -103,7 +104,8 @@ void	drop_forks(t_philo *philo);
 // ft_funtions.c
 void	exit_phl(char *msg);
 long	ft_atol(char *nb);
-void	ft_setting_threads(t_data *data);
+void	setting_threads(t_data *data);
+void	setting_simustart(t_data *data);
 uint64_t	define_time();
 uint64_t	simul_time(t_data *data);
 

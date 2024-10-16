@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_functions.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: bbento-a <bbento-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 15:50:08 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/14 21:49:54 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/16 10:26:23 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ long	ft_atol(char *nb)
 	}
 	return (res);
 }
-void	ft_setting_threads(t_data *data)
+void	setting_threads(t_data *data)
 {
 	pthread_mutex_lock(&data->sync_lock);
 	data->ready++;
@@ -44,6 +44,14 @@ void	ft_setting_threads(t_data *data)
 		usleep(100);
 	}
 }
+void	setting_simustart(t_data *data)
+{
+	pthread_mutex_lock(&data->sync2_lock);
+	if (data->t_simustart == 0)
+		data->t_simustart = define_time();
+	pthread_mutex_unlock(&data->sync2_lock);
+}
+
 // Conversion of gettimeofday() units to return in milliseconds
 
 uint64_t	define_time()
@@ -57,5 +65,10 @@ uint64_t	define_time()
 
 uint64_t	simul_time(t_data *data)
 {
-	return(define_time() - data->t_simustart);
+	uint64_t	res;
+	uint64_t	simul;
+
+	simul = data->t_simustart;
+	res = define_time() - simul;
+	return(res);
 }
