@@ -6,7 +6,7 @@
 /*   By: bbento-a <bbento-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 15:50:08 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/16 14:38:36 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/17 15:09:43 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,6 @@ long	ft_atol(char *nb)
 		i++;
 	}
 	return (res);
-}
-
-void	setting_threads(t_data *data)
-{
-	pthread_mutex_lock(&data->sync_lock);
-	data->ready++;
-	pthread_mutex_unlock(&data->sync_lock);
-	while (data->ready != data->n_philos)
-	{
-		pthread_mutex_lock(&data->sync_lock);
-		if (data->ready != data->n_philos)
-		{
-			pthread_mutex_unlock(&data->sync_lock);
-			break ;
-		}
-		pthread_mutex_unlock(&data->sync_lock);
-		usleep(100);
-	}
 }
 
 void	setting_simustart(t_data *data)

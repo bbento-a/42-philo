@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philos_activity.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: bbento-a <bbento-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:58:40 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/16 14:45:03 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/17 15:02:16 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,21 @@
 
 void	philo_eat(t_data *data, t_philo *philo)
 {
+	uint64_t	elapsed;
+	uint64_t	bgn;
+	
+	elapsed = 0;
 	take_forks(data, philo);
 	if (!is_dead(data, philo))
 		write_philo_act(data, philo, "is eating");
-	if (!is_dead(data, philo))
-		usleep(data->t_eat * 1000);
-	drop_forks(philo);
 	philo->t_last_meal = simul_time(data);
+	bgn = simul_time(data);
+	while (!is_dead(data, philo) && elapsed <= data->t_eat)
+	{
+		usleep(100);
+		elapsed = simul_time(data) - bgn;
+	}
+	drop_forks(philo);
 	philo->meals_nb++;
 }
 

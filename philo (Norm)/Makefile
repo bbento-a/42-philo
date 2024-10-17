@@ -6,7 +6,7 @@
 #    By: bbento-a <bbento-a@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/07 15:02:59 by bbento-a          #+#    #+#              #
-#    Updated: 2024/10/16 15:02:33 by bbento-a         ###   ########.fr        #
+#    Updated: 2024/10/17 15:51:37 by bbento-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ OBJ_DIR			= obj/
 # Compiler and Flags
 
 CC				= cc
-CFLAGS			= -Wall -Wextra -Werror -g -pthread -fsanitize=thread
+CFLAGS			= -Wall -Wextra -Werror -g -pthread #-fsanitize=thread
 RM				= rm -f
 
 # Source Files

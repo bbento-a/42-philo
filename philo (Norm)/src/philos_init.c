@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philos_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbento-a <bbento-a@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: bbento-a <bbento-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 16:00:38 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/16 15:00:57 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:04:41 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,19 @@ void	philos_alloc(t_data *data)
 }
 // Few checks for data_init()
 
-void	validate_data(t_data *data)
+void	validate_data(t_data *data, char **args)
 {
 	if (data->n_philos == 0)
-		exit_phl("Invalid number of philos\n");
-	if (data->t_die > LONG_MAX || data->t_eat > LONG_MAX
-		|| data->t_sleep > LONG_MAX || data->n_philos > INT_MAX
-		|| data->meals > INT_MAX)
-		exit_phl("Arguments values are too big\n");
-	if (data->t_die < 1 || data->t_eat < 1 || data->t_sleep < 1)
-		exit_phl("Values must be higher\n");
+		exit_phl("Invalid number of philos.\n");
+	if (data->t_die > INT_MAX || data->t_eat > INT_MAX
+		|| data->t_sleep > INT_MAX || data->n_philos > INT_MAX
+		|| data->meals > INT_MAX || data->meals > INT_MAX)
+		exit_phl("Invalid values.\n");
+	if (data->t_die < 1 || data->t_eat < 1 || data->t_sleep < 1
+		|| data->n_philos < 1)
+		exit_phl("Invalid values.\n");
+	if (args[5] && data->meals < 0)
+		exit_phl("Invalid values.\n");
 }
 // Initiates all values from data
 
@@ -98,15 +101,17 @@ void	data_init(t_data *data, char **args)
 		data->meals = (int)ft_atol(args[5]);
 	else
 		data->meals = -1;
-	validate_data(data);
+	validate_data(data, args);
 	define_t_tthink(data);
 	data->ready = 0;
 	data->is_dead = false;
 	data->ended = false;
 	data->t_simustart = 0;
 	data->philos = malloc(sizeof(t_philo) * data->n_philos);
+	if (!data->philos)
+		return ;
 	data->forks = malloc(sizeof(t_mutex) * data->n_philos);
-	if (!data->forks || !data->philos)
+	if (!data->forks)
 		return ;
 	philos_alloc(data);
 	mutex_alloc(data);
