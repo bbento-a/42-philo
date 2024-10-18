@@ -6,7 +6,7 @@
 /*   By: bbento-a <bbento-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 15:50:08 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/17 15:09:43 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:13:33 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ long	ft_atol(char *nb)
 
 void	setting_simustart(t_data *data)
 {
-	pthread_mutex_lock(&data->sync2_lock);
+	pthread_mutex_lock(&data->sync_lock);
 	if (data->t_simustart == 0)
 		data->t_simustart = define_time();
-	pthread_mutex_unlock(&data->sync2_lock);
+	pthread_mutex_unlock(&data->sync_lock);
 }
 
 uint64_t	define_time(void)

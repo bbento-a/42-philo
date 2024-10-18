@@ -6,7 +6,7 @@
 /*   By: bbento-a <bbento-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 15:05:59 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/16 14:43:32 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:15:32 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,7 @@ typedef struct s_data
 	uint64_t		t_simustart;
 	pthread_mutex_t	msg_lock;
 	pthread_mutex_t	sync_lock;
-	pthread_mutex_t	sync2_lock;
 	pthread_mutex_t	death_lock;
-	int				ready;
 	bool			is_dead;
 	bool			ended;
 }	t_data;
@@ -100,7 +98,6 @@ void		drop_forks(t_philo *philo);
 
 // ft_funtions.c
 long		ft_atol(char *nb);
-void		setting_threads(t_data *data);
 void		setting_simustart(t_data *data);
 uint64_t	define_time(void);
 uint64_t	simul_time(t_data *data);
@@ -108,7 +105,7 @@ uint64_t	simul_time(t_data *data);
 // exit_functions.c
 void		exit_phl(char *msg);
 void		p_msg(char *msg);
-void		error_func(t_data *data);
 void		clear_data(t_data *data);
+void		error_func(t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bbento-a <bbento-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 12:02:18 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/17 15:39:22 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:13:46 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	clear_data(t_data *data)
 
 	pthread_mutex_destroy(&data->msg_lock);
 	pthread_mutex_destroy(&data->sync_lock);
-	pthread_mutex_destroy(&data->sync2_lock);
 	pthread_mutex_destroy(&data->death_lock);
 	i = 0;
 	while (i < data->n_philos)

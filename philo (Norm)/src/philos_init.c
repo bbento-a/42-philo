@@ -6,32 +6,30 @@
 /*   By: bbento-a <bbento-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 16:00:38 by bbento-a          #+#    #+#             */
-/*   Updated: 2024/10/17 16:04:41 by bbento-a         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:17:03 by bbento-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	define_t_tthink(t_data *data)
+static void	define_t_tthink(t_data *data)
 {
 	data->t_think = 0;
 	if (data->n_philos % 2 == 0 && data->t_eat > data->t_sleep)
 		data->t_think = data->t_eat - data->t_sleep;
 	else if (data->n_philos % 2 != 0)
 		data->t_think = data->t_eat * 2 - data->t_sleep;
-	if (data->t_think < 0)
+	if (data->t_think <= 0)
 		data->t_think = 0;
 }
 
-void	mutex_alloc(t_data *data)
+static void	mutex_alloc(t_data *data)
 {
 	int	i;
 
 	if (pthread_mutex_init(&data->msg_lock, NULL))
 		error_func(data);
 	if (pthread_mutex_init(&data->sync_lock, NULL))
-		error_func(data);
-	if (pthread_mutex_init(&data->sync2_lock, NULL))
 		error_func(data);
 	if (pthread_mutex_init(&data->death_lock, NULL))
 		error_func(data);
@@ -46,7 +44,7 @@ void	mutex_alloc(t_data *data)
 	}
 }
 
-void	philos_alloc(t_data *data)
+static void	philos_alloc(t_data *data)
 {
 	int	i;
 
@@ -73,9 +71,8 @@ void	philos_alloc(t_data *data)
 		i++;
 	}
 }
-// Few checks for data_init()
 
-void	validate_data(t_data *data, char **args)
+static void	validate_data(t_data *data, char **args)
 {
 	if (data->n_philos == 0)
 		exit_phl("Invalid number of philos.\n");
@@ -89,7 +86,6 @@ void	validate_data(t_data *data, char **args)
 	if (args[5] && data->meals < 0)
 		exit_phl("Invalid values.\n");
 }
-// Initiates all values from data
 
 void	data_init(t_data *data, char **args)
 {
@@ -103,7 +99,6 @@ void	data_init(t_data *data, char **args)
 		data->meals = -1;
 	validate_data(data, args);
 	define_t_tthink(data);
-	data->ready = 0;
 	data->is_dead = false;
 	data->ended = false;
 	data->t_simustart = 0;
